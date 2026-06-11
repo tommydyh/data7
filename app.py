@@ -151,14 +151,18 @@ def load_or_process_data():
     """
     # Check if labeled data exists
     if os.path.exists(LABELED_DATA_PATH):
-        return pd.read_csv(
-            LABELED_DATA_PATH,
-            encoding='utf-8',
-            quotechar='"',
-            skipinitialspace=True,
-            on_bad_lines='skip',
-            engine='python'
-        )
+        try:
+            return pd.read_csv(
+                LABELED_DATA_PATH,
+                encoding='utf-8',
+                quotechar='"',
+                skipinitialspace=True,
+                on_bad_lines='skip',
+                engine='python'
+            )
+        except Exception as e:
+            st.warning(f"⚠️ Error reading processed data: {str(e)}")
+            st.info("Attempting to regenerate data from sources...")
 
     # Check if source data exists
     if not os.path.exists(SQUADS_DATA_PATH):
@@ -167,17 +171,22 @@ def load_or_process_data():
         return pd.DataFrame()
 
     # Run ETL pipeline
-    with st.spinner("🔄 Processing data..."):
-        df = run_etl()
+    try:
+        with st.spinner("🔄 Processing data..."):
+            df = run_etl()
 
-    # Run clustering
-    engine = PlayerClusterEngine()
-    labeled_df = engine.run_pipeline(
-        input_path=PROCESSED_DATA_PATH,
-        output_path=LABELED_DATA_PATH
-    )
+        # Run clustering
+        engine = PlayerClusterEngine()
+        labeled_df = engine.run_pipeline(
+            input_path=PROCESSED_DATA_PATH,
+            output_path=LABELED_DATA_PATH
+        )
 
-    return labeled_df
+        return labeled_df
+    except Exception as e:
+        st.error(f"❌ Error processing data: {str(e)}")
+        st.info("Please check the source data files and try again.")
+        return pd.DataFrame()
 
 
 @st.cache_data

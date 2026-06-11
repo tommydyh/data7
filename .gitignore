@@ -27,16 +27,7 @@ desktop.ini
 # Logs
 *.log
 
-# Output files (local only)
+# Generated CSV files (local) - EXCEPT final_squad_labeled.csv which is needed for deployment
 *.output
 transcript/
-
-# Temporary files
-temp/
-tmp/
-
-# Archives
-archive_backup/
-
-# Generated CSV files (local)
-final_squad_*.csv
+final_squad_with_skills.csv
