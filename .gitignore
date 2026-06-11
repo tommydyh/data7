@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Mac
+.DS_Store
+
+# Logs
+*.log
+
+# Output files (local only)
+*.output
+transcript/
+
+# Temporary files
+temp/
+tmp/
+
+# Archives
+archive_backup/
+
+# Generated CSV files (local)
+final_squad_*.csv
